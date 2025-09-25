@@ -1,0 +1,1 @@
+﻿global using UmbConstants = global::Umbraco.Cms.Core.Constants;
