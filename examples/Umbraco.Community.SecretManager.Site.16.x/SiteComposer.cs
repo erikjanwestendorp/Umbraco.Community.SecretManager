@@ -1,7 +1,7 @@
 ﻿using Umbraco.Cms.Core.Composing;
-using Umbraco_UIBuilder_KeyVault_Example.Compose;
+using Umbraco.Community.SecretManager.Compose;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Site;
+namespace Umbraco.Community.SecretManager.Site;
 
 public class SiteComposer : IComposer
 {

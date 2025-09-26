@@ -1,15 +1,13 @@
 ﻿using Azure.Core;
-using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Umbraco_UIBuilder_KeyVault_Example.Configuration;
-using Umbraco_UIBuilder_KeyVault_Example.Extensions;
+using Umbraco.Community.SecretManager.Configuration;
+using Umbraco.Community.SecretManager.Extensions;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Compose;
+namespace Umbraco.Community.SecretManager.Compose;
 
 public static class WebApplicationBuilderExtensions
 {

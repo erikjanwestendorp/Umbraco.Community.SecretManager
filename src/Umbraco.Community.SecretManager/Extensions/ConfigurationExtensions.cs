@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Extensions;
+namespace Umbraco.Community.SecretManager.Extensions;
 
 internal static class ConfigurationExtensions
 {

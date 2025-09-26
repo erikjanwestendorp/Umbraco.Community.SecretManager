@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
 using Umbraco.Cms.Core.Models;
+using Umbraco.Community.SecretManager.Entities;
+using Umbraco.Community.SecretManager.Services;
 using Umbraco.UIBuilder;
 using Umbraco.UIBuilder.Persistence;
-using Umbraco_UIBuilder_KeyVault_Example.Entities;
-using Umbraco_UIBuilder_KeyVault_Example.Services;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Repositories;
+namespace Umbraco.Community.SecretManager.Repositories;
 
 public class SecretDetailRepository(RepositoryContext context, IKeyVaultService keyVaultService) : Repository<SecretDetail, string>(context)
 {

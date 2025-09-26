@@ -1,4 +1,4 @@
-using Umbraco_UIBuilder_KeyVault_Example.Compose;
+using Umbraco.Community.SecretManager.Compose;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
