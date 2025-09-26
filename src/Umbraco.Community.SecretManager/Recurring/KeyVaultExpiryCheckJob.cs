@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Globalization;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Infrastructure.BackgroundJobs;
-using Umbraco_UIBuilder_KeyVault_Example.Configuration;
-using Umbraco_UIBuilder_KeyVault_Example.Entities;
-using Umbraco_UIBuilder_KeyVault_Example.Notifications;
-using Umbraco_UIBuilder_KeyVault_Example.Services;
+using Umbraco.Community.SecretManager.Configuration;
+using Umbraco.Community.SecretManager.Entities;
+using Umbraco.Community.SecretManager.Notifications;
+using Umbraco.Community.SecretManager.Services;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Recurring;
+namespace Umbraco.Community.SecretManager.Recurring;
 
 internal class KeyVaultExpiryCheckJob(
     IKeyVaultService keyVault,

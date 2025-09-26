@@ -3,9 +3,9 @@ using Umbraco.Cms.Core.Configuration.Models;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Sync;
 using Umbraco.Cms.Core.Webhooks;
-using Umbraco_UIBuilder_KeyVault_Example.Notifications;
+using Umbraco.Community.SecretManager.Notifications;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Webhooks;
+namespace Umbraco.Community.SecretManager.Webhooks;
 
 [WebhookEvent(AppConstants.WebhookEvents.SecretsExpiringName, UmbConstants.WebhookEvents.Types.Other)]
 public sealed class KeyVaultSecretsExpiringWebhookEvent(

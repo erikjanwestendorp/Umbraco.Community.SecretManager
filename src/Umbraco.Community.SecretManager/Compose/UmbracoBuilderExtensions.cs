@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Community.SecretManager.Entities;
+using Umbraco.Community.SecretManager.Recurring;
+using Umbraco.Community.SecretManager.Repositories;
+using Umbraco.Community.SecretManager.Services;
+using Umbraco.Community.SecretManager.Webhooks;
 using Umbraco.Extensions;
 using Umbraco.UIBuilder.Extensions;
-using Umbraco_UIBuilder_KeyVault_Example.Entities;
-using Umbraco_UIBuilder_KeyVault_Example.Recurring;
-using Umbraco_UIBuilder_KeyVault_Example.Repositories;
-using Umbraco_UIBuilder_KeyVault_Example.Services;
-using Umbraco_UIBuilder_KeyVault_Example.Webhooks;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Compose;
+namespace Umbraco.Community.SecretManager.Compose;
 
 public static class UmbracoBuilderExtensions
 {

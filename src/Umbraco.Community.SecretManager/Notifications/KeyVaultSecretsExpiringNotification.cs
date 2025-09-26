@@ -1,7 +1,7 @@
 ﻿using Umbraco.Cms.Core.Notifications;
-using Umbraco_UIBuilder_KeyVault_Example.Entities;
+using Umbraco.Community.SecretManager.Entities;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Notifications;
+namespace Umbraco.Community.SecretManager.Notifications;
 
 public sealed class KeyVaultSecretsExpiringNotification(
     DateTime checkedAtUtc,

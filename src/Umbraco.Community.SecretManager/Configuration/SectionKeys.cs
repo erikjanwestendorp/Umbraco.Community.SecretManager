@@ -1,4 +1,4 @@
-﻿namespace Umbraco_UIBuilder_KeyVault_Example.Configuration;
+﻿namespace Umbraco.Community.SecretManager.Configuration;
 
 internal static class SectionKeys
 {

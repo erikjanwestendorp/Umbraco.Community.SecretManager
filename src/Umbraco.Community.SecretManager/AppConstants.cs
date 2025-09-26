@@ -1,4 +1,4 @@
-﻿namespace Umbraco_UIBuilder_KeyVault_Example;
+﻿namespace Umbraco.Community.SecretManager;
 
 internal static class AppConstants
 {

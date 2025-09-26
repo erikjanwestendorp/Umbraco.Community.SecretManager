@@ -1,4 +1,4 @@
-﻿namespace Umbraco_UIBuilder_KeyVault_Example.Entities;
+﻿namespace Umbraco.Community.SecretManager.Entities;
 
 public class SecretDetail
 {

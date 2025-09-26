@@ -1,10 +1,10 @@
 ﻿using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using Umbraco_UIBuilder_KeyVault_Example.Configuration;
-using Umbraco_UIBuilder_KeyVault_Example.Entities;
+using Umbraco.Community.SecretManager.Configuration;
+using Umbraco.Community.SecretManager.Entities;
 
-namespace Umbraco_UIBuilder_KeyVault_Example.Services;
+namespace Umbraco.Community.SecretManager.Services;
 
 internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCache, IOptions<KeyVaultOptions> options) : IKeyVaultService
 {
