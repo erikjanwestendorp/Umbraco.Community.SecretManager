@@ -12,12 +12,20 @@ namespace Umbraco.Community.SecretManager.Compose;
 
 public static class UmbracoBuilderExtensions
 {
-    public static IUmbracoBuilder ConfigureUmbracoUiBuilderKeyVaultExample(this IUmbracoBuilder builder)
+    public static IUmbracoBuilder ConfigureSecretManager(this IUmbracoBuilder builder)
     {
         builder.Services.AddTransient<IKeyVaultService, KeyVaultService>();
         builder.WebhookEvents().Add<KeyVaultSecretsExpiringWebhookEvent>();
         builder.Services.AddRecurringBackgroundJob<KeyVaultExpiryCheckJob>();
 
+        ConfigureUiBuilder(builder);
+
+
+        return builder;
+    }
+
+    private static void ConfigureUiBuilder(IUmbracoBuilder builder)
+    {
         builder.AddUIBuilder(config =>
         {
             config.AddSectionAfter(UmbConstants.Applications.Settings, AppConstants.Applications.ConfigurationName, sectionConfig => sectionConfig
@@ -41,7 +49,5 @@ public static class UmbracoBuilderExtensions
                             .DisableCreate()
                             .DisableUpdate())));
         });
-
-        return builder;
     }
 }
