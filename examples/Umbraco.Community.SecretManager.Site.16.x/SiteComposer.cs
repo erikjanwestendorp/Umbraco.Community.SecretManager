@@ -7,6 +7,6 @@ public class SiteComposer : IComposer
 {
     public void Compose(IUmbracoBuilder builder)
     {
-        builder.ConfigureUmbracoUiBuilderKeyVaultExample();
+        builder.ConfigureSecretManager();
     }
 }
