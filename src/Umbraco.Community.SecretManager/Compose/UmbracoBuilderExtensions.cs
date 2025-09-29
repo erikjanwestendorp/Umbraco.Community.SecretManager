@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Community.SecretManager.Configuration;
 using Umbraco.Community.SecretManager.Entities;
 using Umbraco.Community.SecretManager.Recurring;
 using Umbraco.Community.SecretManager.Repositories;
@@ -12,15 +13,20 @@ namespace Umbraco.Community.SecretManager.Compose;
 
 public static class UmbracoBuilderExtensions
 {
-    public static IUmbracoBuilder ConfigureSecretManager(this IUmbracoBuilder builder)
+    public static IUmbracoBuilder ConfigureSecretManager(this IUmbracoBuilder builder, SecretManagerOptions options)
     {
         builder.Services.AddTransient<IKeyVaultService, KeyVaultService>();
         builder.WebhookEvents().Add<KeyVaultSecretsExpiringWebhookEvent>();
         builder.Services.AddRecurringBackgroundJob<KeyVaultExpiryCheckJob>();
         builder.WithCollectionBuilder<WebhookPayloadProviderCollectionBuilder>()
             .Add(() => builder.TypeLoader.GetTypes<IWebhookPayloadProvider>());
-        ConfigureUiBuilder(builder);
 
+        builder.Services.AddSingleton(_ => options.SecretClient);
+
+        if (options.EnableUmbracoUiBuilder)
+        {
+            ConfigureUiBuilder(builder);
+        }
 
         return builder;
     }

@@ -6,10 +6,9 @@ using Umbraco.Community.SecretManager.Entities;
 
 namespace Umbraco.Community.SecretManager.Services;
 
-internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCache, IOptions<KeyVaultOptions> options) : IKeyVaultService
+internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCache, IOptions<SecretManagerOptions> options) : IKeyVaultService
 {
     public const string DateFormat = "yyyy-MM-dd";
-    public string CacheKey = options.Value.Endpoint;
 
     public List<SecretDetail> GetSecrets()
     {

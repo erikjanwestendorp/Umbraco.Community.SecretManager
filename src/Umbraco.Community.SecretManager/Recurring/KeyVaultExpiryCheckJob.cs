@@ -14,9 +14,9 @@ internal class KeyVaultExpiryCheckJob(
     IEventAggregator events,
     ILogger<KeyVaultExpiryCheckJob> logger,
 
-    IOptions<KeyVaultOptions> opts) : IRecurringBackgroundJob
+    IOptions<SecretManagerOptions> opts) : IRecurringBackgroundJob
 {
-    private readonly KeyVaultOptions _opts = opts.Value;
+    private readonly SecretManagerOptions _opts = opts.Value;
 
     public TimeSpan Period => _opts.Period ?? TimeSpan.FromHours(1);
 

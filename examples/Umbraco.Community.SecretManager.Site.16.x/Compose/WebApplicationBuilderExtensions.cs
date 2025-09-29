@@ -1,17 +1,14 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Umbraco.Community.SecretManager.Configuration;
-using Umbraco.Community.SecretManager.Extensions;
+using Umbraco.Community.SecretManager.Site.Configuration;
+using Umbraco.Community.SecretManager.Site.Extensions;
 
-namespace Umbraco.Community.SecretManager.Compose;
+namespace Umbraco.Community.SecretManager.Site.Compose;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder ConfigureKeyVault(this WebApplicationBuilder builder)
+    public static SecretClient ConfigureKeyVault(this WebApplicationBuilder builder)
     {
         var keyVaultSettings = builder.Configuration.GetConfiguredInstance<KeyVaultOptions>(SectionKeys.KeyVault);
 
@@ -26,10 +23,10 @@ public static class WebApplicationBuilderExtensions
             : new DefaultAzureCredential();
 
         var secretClient = new SecretClient(new Uri(keyVaultSettings.Endpoint), credential);
-        builder.Services.AddSingleton(_ => secretClient);
+        
 
         //builder.Configuration.AddAzureKeyVault(secretClient, new AzureKeyVaultConfigurationOptions { });
 
-        return builder;
+        return secretClient;
     }
 }

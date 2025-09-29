@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿namespace Umbraco.Community.SecretManager.Site.Extensions;
 
-namespace Umbraco.Community.SecretManager.Extensions;
-
-internal static class ConfigurationExtensions
+public static class ConfigurationExtensions
 {
     public static T GetConfiguredInstance<T>(this IConfiguration configuration, string sectionName) where T : new()
     {

@@ -8,8 +8,8 @@ internal class TeamsSecretsExpiringProvider : WebhookPayloadProviderBase<KeyVaul
 {
     protected override bool CanHandle(Uri endpoint, string eventAlias, KeyVaultSecretsExpiringNotification notification, IWebhook webhook)
     {
-        var h = endpoint.Host.ToLowerInvariant();
-        var isTeams = h.EndsWith("environment.api.powerplatform.com");
+        var host = endpoint.Host.ToLowerInvariant();
+        var isTeams = host.EndsWith("environment.api.powerplatform.com");
         return isTeams && string.Equals(eventAlias, AppConstants.WebhookEvents.SecretsExpiringAlias, StringComparison.OrdinalIgnoreCase);
     }
     

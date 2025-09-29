@@ -21,7 +21,7 @@ public class SecretDetailRepository(RepositoryContext context, IKeyVaultService 
 
     protected override IEnumerable<TJunctionEntity> GetRelationsByParentIdImpl<TJunctionEntity>(string parentId, string relationAlias)
     {
-        return Enumerable.Empty<TJunctionEntity>();
+        return [];
     }
 
     protected override SecretDetail SaveImpl(SecretDetail entity)

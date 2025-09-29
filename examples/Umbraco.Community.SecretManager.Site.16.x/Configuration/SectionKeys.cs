@@ -1,4 +1,4 @@
-﻿namespace Umbraco.Community.SecretManager.Configuration;
+﻿namespace Umbraco.Community.SecretManager.Site.Configuration;
 
 internal static class SectionKeys
 {
