@@ -1,6 +1,6 @@
 ﻿namespace Umbraco.Community.SecretManager;
 
-internal static class AppConstants
+public static class AppConstants
 {
     public static class Icons
     {
