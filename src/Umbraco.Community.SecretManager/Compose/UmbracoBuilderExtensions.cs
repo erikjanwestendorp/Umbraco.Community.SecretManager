@@ -17,7 +17,8 @@ public static class UmbracoBuilderExtensions
         builder.Services.AddTransient<IKeyVaultService, KeyVaultService>();
         builder.WebhookEvents().Add<KeyVaultSecretsExpiringWebhookEvent>();
         builder.Services.AddRecurringBackgroundJob<KeyVaultExpiryCheckJob>();
-
+        builder.WithCollectionBuilder<WebhookPayloadProviderCollectionBuilder>()
+            .Add(() => builder.TypeLoader.GetTypes<IWebhookPayloadProvider>());
         ConfigureUiBuilder(builder);
 
 
