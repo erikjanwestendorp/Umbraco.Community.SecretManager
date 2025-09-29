@@ -1,12 +1,13 @@
-using Umbraco.Community.SecretManager.Compose;
+using Umbraco.Community.SecretManager.Site.Compose;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureKeyVault();
+var secretClient = builder.ConfigureKeyVault();
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
     .AddComposers()
+    .Configure(secretClient)
     .Build();
 
 WebApplication app = builder.Build();
