@@ -42,13 +42,13 @@ public static class UmbracoBuilderExtensions
                             .SetRepositoryType<SecretDetailRepository>()
                             .SetNameProperty(s => s.Name)
                             .ListView(listViewConfig => listViewConfig
-                                .AddField(s => s.Expire))
+                                .AddField(s => s.ExpirationDate))
                             .Editor(editorConfig => editorConfig
                                 .AddTab(AppConstants.Collections.SecretDetailTab, tabConfig => tabConfig
                                     .AddFieldset(AppConstants.Collections.SecretDetailFieldset, fieldsetConfig =>
                                         fieldsetConfig
                                             .AddField(f => f.Name).MakeReadOnly()
-                                            .AddField(f => f.Expire).MakeReadOnly()
+                                            .AddField(f => f.ExpirationDate).SetLabel(nameof(SecretDetail.ExpirationDate)).MakeReadOnly()
                                             .AddField(f => f.CreatedOn).MakeReadOnly()
                                             .AddField(f => f.RecoveryLevel).MakeReadOnly()
                                             .AddField(f => f.Tags).MakeReadOnly())))
