@@ -25,7 +25,7 @@ internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCac
             {
                 Name = prop.Name,
                 CreatedOn = prop.CreatedOn != null ? prop.CreatedOn!.ToString()! : string.Empty,
-                Expire = expiresOn?.ToString(DateFormat) ?? "Never",
+                ExpirationDate = expiresOn?.ToString(DateFormat) ?? "Never",
                 RecoveryLevel = prop.RecoveryLevel ?? "N/A",
                 Tags = prop.Tags != null ? string.Join(", ", prop.Tags.Select(t => $"{t.Key}:{t.Value}")) : "No Tags"
             });

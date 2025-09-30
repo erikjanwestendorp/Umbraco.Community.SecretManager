@@ -25,7 +25,7 @@ internal class TeamsSecretsExpiringProvider : WebhookPayloadProviderBase<KeyVaul
                         version = "1.4",
                         body = notification.Secrets.SelectMany(s => new object[] {
                             new { type="TextBlock", size="Medium", weight="Bolder", text=s.Name },
-                            new { type="TextBlock", wrap=true, text=$"Expires: {s.Expire:yyyy-MM-dd HH:mm}" }
+                            new { type="TextBlock", wrap=true, text=$"Expires: {s.ExpirationDate:yyyy-MM-dd HH:mm}" }
                         }).ToArray()
                     }
                 }
