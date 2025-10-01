@@ -68,7 +68,7 @@ internal class KeyVaultExpiryCheckJob(
 
         if(cron == null)
         {
-            return TimeSpan.Zero;
+            return TimeSpan.FromMinutes(3);
         }
 
         var now = DateTime.UtcNow;

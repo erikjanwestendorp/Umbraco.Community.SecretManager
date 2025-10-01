@@ -10,12 +10,7 @@ public static class UmbracoBuilderExtensions
 {
     public static IUmbracoBuilder Configure(this IUmbracoBuilder builder, SecretClient secretClient)
     {
-        builder.ConfigureSecretManager(new SecretManagerOptions
-        {
-            SecretClient = secretClient,
-            EnableUmbracoUiBuilder = true,
-            FirstRun = "* 7 * * *"
-        });
+        builder.ConfigureSecretManager(secretClient);
 
         builder.WithCollectionBuilder<WebhookPayloadProviderCollectionBuilder>().Add<TeamsSecretsExpiringProvider>();
         return builder;
