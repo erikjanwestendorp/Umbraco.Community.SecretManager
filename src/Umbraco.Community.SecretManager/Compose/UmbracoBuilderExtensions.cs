@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Azure.Security.KeyVault.Secrets;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Community.SecretManager.Configuration;
 using Umbraco.Community.SecretManager.Entities;
@@ -13,7 +15,7 @@ namespace Umbraco.Community.SecretManager.Compose;
 
 public static class UmbracoBuilderExtensions
 {
-    public static IUmbracoBuilder ConfigureSecretManager(this IUmbracoBuilder builder, SecretManagerOptions options)
+    public static IUmbracoBuilder ConfigureSecretManager(this IUmbracoBuilder builder, SecretClient secretClient, Action<OptionsBuilder<SecretManagerOptions>>? configure = null)
     {
         builder.Services.AddTransient<IKeyVaultService, KeyVaultService>();
         builder.WebhookEvents().Add<KeyVaultSecretsExpiringWebhookEvent>();
@@ -21,13 +23,16 @@ public static class UmbracoBuilderExtensions
         builder.WithCollectionBuilder<WebhookPayloadProviderCollectionBuilder>()
             .Add(() => builder.TypeLoader.GetTypes<IWebhookPayloadProvider>());
 
-        builder.Services.AddSingleton(_ => options.SecretClient);
 
-        if (options.EnableUmbracoUiBuilder)
-        {
-            ConfigureUiBuilder(builder);
-        }
+        var optionsBuilder = builder.Services.AddOptions<SecretManagerOptions>()
+            .BindConfiguration("SecretManager")
+            .ValidateDataAnnotations();
 
+        configure?.Invoke(optionsBuilder);
+
+        builder.Services.AddSingleton(_ => secretClient);
+        ConfigureUiBuilder(builder);
+        
         return builder;
     }
 
