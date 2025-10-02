@@ -1,4 +1,6 @@
-﻿namespace Umbraco.Community.SecretManager.Site.Extensions;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Umbraco.Community.SecretManager.Configuration;
 
 public static class ConfigurationExtensions
 {

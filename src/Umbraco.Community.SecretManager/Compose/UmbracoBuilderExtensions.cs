@@ -24,15 +24,18 @@ public static class UmbracoBuilderExtensions
             .Add(() => builder.TypeLoader.GetTypes<IWebhookPayloadProvider>());
 
 
-        var optionsBuilder = builder.Services.AddOptions<SecretManagerOptions>()
-            .BindConfiguration("SecretManager")
-            .ValidateDataAnnotations();
+        var (optionsBuilder, options) = builder.Services.AddConfiguredOptions<SecretManagerOptions>(
+            builder.Config, "SecretManager");
 
         configure?.Invoke(optionsBuilder);
 
         builder.Services.AddSingleton(_ => secretClient);
-        ConfigureUiBuilder(builder);
-        
+
+        if (options.EnableUmbracoUiBuilder)
+        {
+            ConfigureUiBuilder(builder);
+        }
+
         return builder;
     }
 
