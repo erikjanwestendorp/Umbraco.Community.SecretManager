@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Community.SecretManager.Configuration;
 using Umbraco.Community.SecretManager.Entities;
+using Umbraco.Community.SecretManager.Extensions;
 using Umbraco.Community.SecretManager.Recurring;
 using Umbraco.Community.SecretManager.Repositories;
 using Umbraco.Community.SecretManager.Services;
