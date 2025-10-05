@@ -71,7 +71,7 @@ internal class KeyVaultExpiryCheckJob(
             return TimeSpan.FromMinutes(3);
         }
 
-        var now = DateTime.UtcNow;
+        var now = DateTime.Now;
         var next = cron.GetNextOccurrence(now);
 
         return next - now;
