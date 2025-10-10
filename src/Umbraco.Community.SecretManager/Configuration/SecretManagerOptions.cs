@@ -6,4 +6,6 @@ public class SecretManagerOptions
     public TimeSpan Period { get; set; } = TimeSpan.FromDays(1);
     public string? FirstRun { get; set; }
     public TimeSpan? WarnBefore { get; set; }
+    public string DateTimeFormat { get; set; } = "MMMM d, yyyy";
+    public string Culture { get; set; } = "en-US";
 }
