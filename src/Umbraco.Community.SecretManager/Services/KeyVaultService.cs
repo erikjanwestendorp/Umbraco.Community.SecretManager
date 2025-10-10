@@ -1,4 +1,5 @@
-﻿using Azure.Security.KeyVault.Secrets;
+﻿using System.Globalization;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Umbraco.Community.SecretManager.Configuration;
@@ -8,7 +9,7 @@ namespace Umbraco.Community.SecretManager.Services;
 
 internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCache, IOptions<SecretManagerOptions> options) : IKeyVaultService
 {
-    public const string DateFormat = "yyyy-MM-dd";
+    private readonly SecretManagerOptions _opts = options.Value;
 
     public List<SecretDetail> GetSecrets()
     {
@@ -25,12 +26,12 @@ internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCac
             {
                 Name = prop.Name,
                 CreatedOn = prop.CreatedOn != null ? prop.CreatedOn!.ToString()! : string.Empty,
-                ExpirationDate = expiresOn?.ToString(DateFormat) ?? "Never",
+                ExpirationDate = expiresOn?.ToString(_opts.DateTimeFormat, new CultureInfo(_opts.Culture)) ?? "Never",
                 RecoveryLevel = prop.RecoveryLevel ?? "N/A",
                 Tags = prop.Tags != null ? string.Join(", ", prop.Tags.Select(t => $"{t.Key}:{t.Value}")) : "No Tags"
             });
         }
-
+        
         return result;
     }
 }
