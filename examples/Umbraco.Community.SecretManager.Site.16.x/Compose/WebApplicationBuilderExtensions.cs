@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Umbraco.Community.SecretManager.Extensions;
+using Umbraco.Community.SecretManager.Common.Extensions;
 using Umbraco.Community.SecretManager.Site.Configuration;
 
 namespace Umbraco.Community.SecretManager.Site.Compose;

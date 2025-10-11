@@ -1,14 +1,19 @@
 ﻿using System.Linq.Expressions;
 using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SecretManager.Entities;
-using Umbraco.Community.SecretManager.Services;
-using Umbraco.UIBuilder;
+using Umbraco.Community.SecretManager.Common.Services;
+using Umbraco.Community.SecretManager.UIBuilder.Entities;
 using Umbraco.UIBuilder.Persistence;
+using Umbraco.UIBuilder;
+using System.Globalization;
+using Microsoft.Extensions.Options;
+using Umbraco.Community.SecretManager.UIBuilder.Configuration;
 
-namespace Umbraco.Community.SecretManager.Repositories;
+namespace Umbraco.Community.SecretManager.UIBuilder.Repositories;
 
-public class SecretDetailRepository(RepositoryContext context, IKeyVaultService keyVaultService) : Repository<SecretDetail, string>(context)
+public class SecretDetailRepository(RepositoryContext context, IKeyVaultService keyVaultService, IOptions<SecretManagerUIBuilderOptions> opts) : Repository<SecretDetail, string>(context)
 {
+    private readonly SecretManagerUIBuilderOptions _options = opts.Value;
+
     protected override string GetIdImpl(SecretDetail entity)
     {
         return entity.Name;
@@ -42,7 +47,25 @@ public class SecretDetailRepository(RepositoryContext context, IKeyVaultService 
     protected override IEnumerable<SecretDetail> GetAllImpl(Expression<Func<SecretDetail, bool>>? whereClause = null, Expression<Func<SecretDetail, object>>? orderBy = null,
         SortDirection orderByDirection = SortDirection.Ascending)
     {
-        return keyVaultService.GetSecrets();
+        var secrets = keyVaultService.GetSecrets();
+
+        var result = new List<SecretDetail>();
+        foreach (var secret in secrets)
+        {
+            var expiresOn = secret.ExpiresOn?.UtcDateTime;
+
+            result.Add(new SecretDetail
+            {
+                Name = secret.Name,
+                CreatedOn = secret.CreatedOn != null ? secret.CreatedOn!.ToString()! : string.Empty,
+                ExpirationPreview = expiresOn?.ToString(_options.DateTimeFormat, new CultureInfo(_options.Culture)) ?? "N/A",
+                ExpirationDate = expiresOn,
+                RecoveryLevel = secret.RecoveryLevel ?? "N/A",
+                Tags = secret.Tags != null ? string.Join(", ", secret.Tags.Select(t => $"{t.Key}:{t.Value}")) : "No Tags"
+            });
+        }
+
+        return result;
     }
 
     protected override PagedResult<SecretDetail> GetPagedImpl(int pageNumber, int pageSize, Expression<Func<SecretDetail, bool>>? whereClause = null, Expression<Func<SecretDetail, object>>? orderBy = null,
