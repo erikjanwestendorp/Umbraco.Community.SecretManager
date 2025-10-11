@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Umbraco.Community.SecretManager.Extensions;
+namespace Umbraco.Community.SecretManager.Common.Extensions;
 
 public static class ConfigurationExtensions
 {

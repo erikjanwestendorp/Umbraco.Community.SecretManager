@@ -27,7 +27,7 @@ public sealed class KeyVaultSecretsExpiringWebhookEvent(
 
         Results = notification.Secrets.Select(result => new
         {
-            result.Name, Expire = result.ExpirationDate,
+            result.Name, Expire = result.ExpiresOn,
         })
     };
 

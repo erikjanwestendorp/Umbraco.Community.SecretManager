@@ -1,13 +1,13 @@
-﻿using Umbraco.Cms.Core.Notifications;
-using Umbraco.Community.SecretManager.Entities;
+﻿using Azure.Security.KeyVault.Secrets;
+using Umbraco.Cms.Core.Notifications;
 
 namespace Umbraco.Community.SecretManager.Notifications;
 
 public sealed class KeyVaultSecretsExpiringNotification(
     DateTime checkedAtUtc,
-    IReadOnlyCollection<SecretDetail> secrets)
+    IReadOnlyCollection<SecretProperties> secrets)
     : INotification
 {
     public DateTime CheckedAtUtc { get; } = checkedAtUtc;
-    public IReadOnlyCollection<SecretDetail> Secrets { get; } = secrets;
+    public IReadOnlyCollection<SecretProperties> Secrets { get; } = secrets;
 }

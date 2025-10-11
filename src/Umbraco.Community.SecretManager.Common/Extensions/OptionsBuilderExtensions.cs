@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Umbraco.Community.SecretManager.Extensions;
+namespace Umbraco.Community.SecretManager.Common.Extensions;
 
 public static class OptionsBuilderExtensions
 {

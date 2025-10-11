@@ -1,13 +1,12 @@
-﻿using System.Globalization;
+﻿using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NCrontab;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Infrastructure.BackgroundJobs;
+using Umbraco.Community.SecretManager.Common.Services;
 using Umbraco.Community.SecretManager.Configuration;
-using Umbraco.Community.SecretManager.Entities;
 using Umbraco.Community.SecretManager.Notifications;
-using Umbraco.Community.SecretManager.Services;
 
 namespace Umbraco.Community.SecretManager.Recurring;
 
@@ -15,9 +14,9 @@ internal class KeyVaultExpiryCheckJob(
     IKeyVaultService keyVaultService,
     IEventAggregator events,
     ILogger<KeyVaultExpiryCheckJob> logger,
-    IOptions<SecretManagerOptions> opts) : IRecurringBackgroundJob
+    IOptions<SecretManagerRecurringOptions> opts) : IRecurringBackgroundJob
 {
-    private readonly SecretManagerOptions _opts = opts.Value;
+    private readonly SecretManagerRecurringOptions _opts = opts.Value;
 
     public TimeSpan Period => _opts.Period;
     public TimeSpan Delay { get; } = GetDelay(opts.Value);
@@ -29,18 +28,15 @@ internal class KeyVaultExpiryCheckJob(
         var nowUtc = DateTime.UtcNow;
         var threshold = nowUtc.Add(_opts.WarnBefore);
 
-        var expiring = new List<SecretDetail>();
-        foreach (var secretDetail in keyVaultService.GetSecrets())
+        var expiring = new List<SecretProperties>();
+        foreach (var secretProperties in keyVaultService.GetSecrets())
         {
-            if (secretDetail.ExpirationDate is null)
-            {
-                continue;
-            }
+            var expiresOn = secretProperties.ExpiresOn?.UtcDateTime;
 
-            if (secretDetail.ExpirationDate > nowUtc &&
-                secretDetail.ExpirationDate <= threshold)
+            if (expiresOn > nowUtc &&
+                expiresOn <= threshold)
             {
-                expiring.Add(secretDetail);
+                expiring.Add(secretProperties);
             }
 
         }
@@ -57,7 +53,7 @@ internal class KeyVaultExpiryCheckJob(
         return Task.CompletedTask;
     }
 
-    private static TimeSpan GetDelay(SecretManagerOptions secretManagerOptions)
+    private static TimeSpan GetDelay(SecretManagerRecurringOptions secretManagerOptions)
     {
         var cron = CrontabSchedule.TryParse(secretManagerOptions.FirstRun);
 

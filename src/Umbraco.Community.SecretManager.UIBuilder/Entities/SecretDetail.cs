@@ -1,4 +1,4 @@
-﻿namespace Umbraco.Community.SecretManager.Entities;
+﻿namespace Umbraco.Community.SecretManager.UIBuilder.Entities;
 
 public class SecretDetail
 {
