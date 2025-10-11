@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Globalization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NCrontab;
 using Umbraco.Cms.Core.Events;
@@ -26,38 +27,32 @@ internal class KeyVaultExpiryCheckJob(
     public Task RunJobAsync()
     {
         var nowUtc = DateTime.UtcNow;
-        var threshold = nowUtc.Add(_opts.WarnBefore ?? TimeSpan.FromDays(14));
+        var threshold = nowUtc.Add(_opts.WarnBefore);
 
         var expiring = new List<SecretDetail>();
         foreach (var secretDetail in keyVaultService.GetSecrets())
         {
-            //if (string.Equals(secretDetail.Expire, "Never", StringComparison.OrdinalIgnoreCase))
-            //{
-            //    continue;
-            //}
+            if (secretDetail.ExpirationDate is null)
+            {
+                continue;
+            }
 
+            if (secretDetail.ExpirationDate > nowUtc &&
+                secretDetail.ExpirationDate <= threshold)
+            {
+                expiring.Add(secretDetail);
+            }
 
-            //if (DateTime.TryParseExact(
-            //        secretDetail.Expire,
-            //        KeyVaultService.DateFormat,
-            //        CultureInfo.InvariantCulture,
-            //        DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-            //        out var expiresUtc)
-            //    && expiresUtc <= threshold)
-            //{
-            //    expiring.Add(secretDetail);
-            //}
-
-            expiring.Add(secretDetail);
         }
+
+        logger.LogInformation("Found {Count} Key Vault secrets nearing expiry.", expiring.Count);
 
         if (expiring.Count <= 0)
         {
             return Task.CompletedTask;
         }
 
-        logger.LogInformation("Found {Count} Key Vault secrets nearing expiry.", expiring.Count);
-        events.Publish(new KeyVaultSecretsExpiringNotification(nowUtc, threshold, expiring));
+        events.Publish(new KeyVaultSecretsExpiringNotification(nowUtc, expiring));
 
         return Task.CompletedTask;
     }

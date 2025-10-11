@@ -25,8 +25,7 @@ public static class UmbracoBuilderExtensions
             .Add(() => builder.TypeLoader.GetTypes<IWebhookPayloadProvider>());
 
 
-        var (optionsBuilder, options) = builder.Services.AddConfiguredOptions<SecretManagerOptions>(
-            builder.Config, "SecretManager");
+        var (optionsBuilder, options) = builder.Services.AddConfiguredOptions<SecretManagerOptions>(builder.Config, "SecretManager");
 
         configure?.Invoke(optionsBuilder);
 
@@ -51,13 +50,13 @@ public static class UmbracoBuilderExtensions
                             .SetRepositoryType<SecretDetailRepository>()
                             .SetNameProperty(s => s.Name)
                             .ListView(listViewConfig => listViewConfig
-                                .AddField(s => s.ExpirationDate))
+                                .AddField(s => s.ExpirationPreview))
                             .Editor(editorConfig => editorConfig
                                 .AddTab(AppConstants.Collections.SecretDetailTab, tabConfig => tabConfig
                                     .AddFieldset(AppConstants.Collections.SecretDetailFieldset, fieldsetConfig =>
                                         fieldsetConfig
                                             .AddField(f => f.Name).MakeReadOnly()
-                                            .AddField(f => f.ExpirationDate).SetLabel(nameof(SecretDetail.ExpirationDate)).MakeReadOnly()
+                                            .AddField(f => f.ExpirationPreview).SetLabel(nameof(SecretDetail.ExpirationDate)).MakeReadOnly()
                                             .AddField(f => f.CreatedOn).MakeReadOnly()
                                             .AddField(f => f.RecoveryLevel).MakeReadOnly()
                                             .AddField(f => f.Tags).MakeReadOnly())))
