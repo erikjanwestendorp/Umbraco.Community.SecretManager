@@ -1,0 +1,49 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    tags:
+      - '*' 
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore Umbraco.Community.SecretManager
+        run: dotnet restore ./src/Umbraco.Community.SecretManager/Umbraco.Community.SecretManager.csproj
+      
+      - name: Restore Umbraco.Community.SecretManager.Common
+        run: dotnet restore ./src/Umbraco.Community.SecretManager.Common/Umbraco.Community.SecretManager.Common.csproj
+
+      - name: Restore Umbraco.Community.SecretManager.UIBuilder
+        run: dotnet restore ./src/Umbraco.Community.SecretManager.UIBuilder/Umbraco.Community.SecretManager.UIBuilder.csproj
+
+      - name: Build Umbraco.Community.SecretManager
+        run: dotnet build ./src/Umbraco.Community.SecretManager/Umbraco.Community.SecretManager.csproj --configuration Release --no-restore
+
+      - name: Build Umbraco.Community.SecretManager.Common
+        run: dotnet build ./src/Umbraco.Community.SecretManager.Common/Umbraco.Community.SecretManager.Common.csproj --configuration Release --no-restore
+
+      - name: Build Umbraco.Community.SecretManager.UIBuilder
+        run: dotnet build ./src/Umbraco.Community.SecretManager.UIBuilder/Umbraco.Community.SecretManager.UIBuilder.csproj --configuration Release --no-restore
+
+      - name: Pack Umbraco.Community.SecretManager
+        run: dotnet pack ./src/Umbraco.Community.SecretManager/Umbraco.Community.SecretManager.csproj --configuration Release --no-build --output ./nupkg
+
+      - name: Pack Umbraco.Community.SecretManager.Common
+        run: dotnet pack ./src/Umbraco.Community.SecretManager.Common/Umbraco.Community.SecretManager.Common.csproj --configuration Release --no-build --output ./nupkg
+
+      - name: Pack Umbraco.Community.SecretManager.UIBuilder
+        run: dotnet pack ./src/Umbraco.Community.SecretManager.UIBuilder/Umbraco.Community.SecretManager.UIBuilder.csproj --configuration Release --no-build --output ./nupkg
+        
+      - name: Push all .nupkg files to NuGet
+        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
