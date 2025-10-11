@@ -18,15 +18,17 @@ internal class KeyVaultService(SecretClient secretClient, IMemoryCache memoryCac
             return cachedSecrets;
         }
         var result = new List<SecretDetail>();
+
         foreach (var prop in secretClient.GetPropertiesOfSecrets())
         {
             var expiresOn = prop.ExpiresOn?.UtcDateTime;
-
+            
             result.Add(new SecretDetail
             {
                 Name = prop.Name,
                 CreatedOn = prop.CreatedOn != null ? prop.CreatedOn!.ToString()! : string.Empty,
-                ExpirationDate = expiresOn?.ToString(_opts.DateTimeFormat, new CultureInfo(_opts.Culture)) ?? "Never",
+                ExpirationPreview = expiresOn?.ToString(_opts.DateTimeFormat, new CultureInfo(_opts.Culture)) ?? "N/A",
+                ExpirationDate = expiresOn,
                 RecoveryLevel = prop.RecoveryLevel ?? "N/A",
                 Tags = prop.Tags != null ? string.Join(", ", prop.Tags.Select(t => $"{t.Key}:{t.Value}")) : "No Tags"
             });

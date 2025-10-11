@@ -2,6 +2,11 @@
 
 public static class AppConstants
 {
+    public const string DefaultDateTimeFormat = "MMMM d, yyyy";
+    public const string DefaultCulture = "en-US";
+    public static TimeSpan DefaultWarnBefore = TimeSpan.FromDays(7);
+    public static TimeSpan DefaultPeriod = TimeSpan.FromDays(1);
+
     public static class Icons
     {
         public const string CombinationLock = "icon-combination-lock";
