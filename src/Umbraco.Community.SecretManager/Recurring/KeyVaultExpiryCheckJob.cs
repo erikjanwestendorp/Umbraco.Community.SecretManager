@@ -70,6 +70,6 @@ internal class KeyVaultExpiryCheckJob(
         var delay = next - now;
 
         logger.LogInformation("First run scheduled at {FirstRun} (in {Delay}).", next, delay);
-        return next - now;
+        return delay;
     }
 }
