@@ -19,7 +19,7 @@ internal class KeyVaultExpiryCheckJob(
     private readonly SecretManagerRecurringOptions _opts = opts.Value;
 
     public TimeSpan Period => _opts.Period;
-    public TimeSpan Delay { get; } = GetDelay(opts.Value);
+    public TimeSpan Delay { get; } = GetDelay(opts.Value, logger);
     public event EventHandler? PeriodChanged { add { } remove { } }
 
 
@@ -27,6 +27,8 @@ internal class KeyVaultExpiryCheckJob(
     {
         var nowUtc = DateTime.UtcNow;
         var threshold = nowUtc.Add(_opts.WarnBefore);
+
+        logger.LogInformation("Checking Key Vault secrets for expiry before {Threshold} (UTC)", threshold);
 
         var expiring = new List<SecretProperties>();
         foreach (var secretProperties in keyVaultService.GetSecrets())
@@ -53,18 +55,21 @@ internal class KeyVaultExpiryCheckJob(
         return Task.CompletedTask;
     }
 
-    private static TimeSpan GetDelay(SecretManagerRecurringOptions secretManagerOptions)
+    private static TimeSpan GetDelay(SecretManagerRecurringOptions secretManagerOptions, ILogger<KeyVaultExpiryCheckJob> logger)
     {
         var cron = CrontabSchedule.TryParse(secretManagerOptions.FirstRun);
 
         if(cron == null)
         {
+            logger.LogInformation("No valid cron expression found for first run, defaulting to 3 minutes.");
             return TimeSpan.FromMinutes(3);
         }
 
         var now = DateTime.Now;
         var next = cron.GetNextOccurrence(now);
+        var delay = next - now;
 
-        return next - now;
+        logger.LogInformation("First run scheduled at {FirstRun} (in {Delay}).", next, delay);
+        return delay;
     }
 }
