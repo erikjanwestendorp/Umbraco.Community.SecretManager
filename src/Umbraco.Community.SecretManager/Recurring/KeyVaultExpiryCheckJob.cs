@@ -61,8 +61,9 @@ internal class KeyVaultExpiryCheckJob(
 
         if(cron == null)
         {
-            logger.LogInformation("No valid cron expression found for first run, defaulting to 3 minutes.");
-            return TimeSpan.FromMinutes(3);
+            var defaultDelay = IRecurringBackgroundJob.DefaultDelay;
+            logger.LogInformation("No valid cron expression found for first run, fallback to default {defaultDelay}", defaultDelay);
+            return defaultDelay;
         }
 
         var now = DateTime.Now;
