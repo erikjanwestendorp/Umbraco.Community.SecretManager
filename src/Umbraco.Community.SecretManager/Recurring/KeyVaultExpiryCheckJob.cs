@@ -35,8 +35,7 @@ internal class KeyVaultExpiryCheckJob(
         {
             var expiresOn = secretProperties.ExpiresOn?.UtcDateTime;
 
-            if (expiresOn > nowUtc &&
-                expiresOn <= threshold)
+            if (expiresOn <= threshold)
             {
                 expiring.Add(secretProperties);
             }
