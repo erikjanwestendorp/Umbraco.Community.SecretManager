@@ -1,1 +1,3 @@
 ﻿# SecretManager
+
+With the help of this package, it is possible to receive notifications when secrets stored in Azure KeyVault are about to expire. For this, you can use a Webhook. You can configure when you would like to receive a notification. It is also possible to display an overview of all secrets in Umbraco, including additional information such as Name, Expiration Date, Created On, Recovery Level, and Tags.
