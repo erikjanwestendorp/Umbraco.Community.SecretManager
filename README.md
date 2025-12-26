@@ -18,6 +18,7 @@ Or package reference:
 
 You can configure the package by using the `ConfigureSecretManager()` extension method.
 
+
 ```csharp
 builder.ConfigureSecretManager(secretClient);
 ```
